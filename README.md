@@ -43,7 +43,3 @@ POST-pyynnön url on muotoa `/detect?postit=1&corner=1&empty=1`
 - Palauttaa Flaskin Responsen, jossa `'Content-Type': 'text/csv'` ja tulokset ovat .csv-tiedostossa nimeltä 'virheet.csv'
 
 - Toimintaa voi testata oheisen request.py-koodin avulla (tai Postmanilla, curlilla tms.)
-
-
-
-c
