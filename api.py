@@ -122,7 +122,7 @@ def detect():
         else:
             image = PIL.Image.open(io.BytesIO(image_bytes))
             image.draft('RGB', (224, 224))
-            images = [image]
+            images = [image.convert("RGB")]
 
         # Column names for the .csv file
         col_names = ['tiedosto','post_it','taittunut_kulma','tyhja_sivu']
