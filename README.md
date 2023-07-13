@@ -27,14 +27,14 @@
 `flask --app api.py --debug run`
 
 - API olettaa että esikoulutetut mallit löytyvät kansiosta './mallit', ja niiden nimet ovat
-'post_it_model_20122022.onnx', 'corner_model_19122022.onnx', 'empty_model_v4.onnx'.
+'post_it_model_20122022.onnx', 'corner_model_19122022.onnx', 'empty_model_v4.onnx' ja 'writing_type_v1.onnx'.
 
 Mallit on tallennettu koneoppimismalleille luodussa avoimessa onnx-formaatissa (https://onnx.ai/), mikä nopeuttaa niiden toimintaa ja tekee ne riippumattomiksi mallien kouluttamiseen käytetystä kirjastosta.
 
 - Yksi route: '/detect'
 
-- Komponenttivalinnat ilmaistaan muodossa `postit=1&corner=1&empty=1`, jolloin
-POST-pyynnön url on muotoa `/detect?postit=1&corner=1&empty=1`
+- Komponenttivalinnat ilmaistaan muodossa `postit=1&corner=1&empty=1&writing_type=1`, jolloin
+POST-pyynnön url on muotoa `/detect?postit=1&corner=1&empty=1&writing_type=1`
 
 - Default-portti: 5000
 
