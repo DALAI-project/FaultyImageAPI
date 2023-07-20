@@ -1,45 +1,45 @@
-# Virhe-api
+# Faulty Image API
 
-## Asennus
+This API combines the image classification models (i.e. empty, sticky notes, folded corner and writing type classifiers) trained in Dalai project. Using this API one can predict whether the document is empty, contains sticky notes or folded corners and the writing type of the document. This API is also used in [arkkiivi](https://arkkiivi.fi/) backend. 
 
-- Luo ja aktivoi conda-ympäristö:
+## Installation
 
-`conda create -n virhe_api_env python=3.7`
+- Create and activate conda environment:
 
-`conda activate virhe_api_env`
+`conda create -n faulty_api_env python=3.7`
 
-- Asenna poppler:
+`conda activate faulty_api_env`
+
+- Install poppler:
 
 `conda install -c conda-forge poppler`
 
-- Asenna muut riippuvuudet:
+- Install required libraries:
 
 `pip install -r requirements.txt`
 
-## Yleistä
+## How to use
 
-- Käynnistys: 
+- Open flask app: 
 
 `flask --app api.py run`
 
-- Käynnistys debuggauksella: 
+- Open flask app with debug: 
 
 `flask --app api.py --debug run`
 
-- API olettaa että esikoulutetut mallit löytyvät kansiosta './mallit', ja niiden nimet ovat
-'post_it_model_20122022.onnx', 'corner_model_19122022.onnx', 'empty_model_v4.onnx' ja 'writing_type_v1.onnx'.
+The API assumes that the models are found in './mallit' folder. The models are named 'post_it_model_20122022.onnx', 'corner_model_19122022.onnx', 'empty_model_v4.onnx' ja 'writing_type_v1.onnx'.
 
-Mallit on tallennettu koneoppimismalleille luodussa avoimessa onnx-formaatissa (https://onnx.ai/), mikä nopeuttaa niiden toimintaa ja tekee ne riippumattomiksi mallien kouluttamiseen käytetystä kirjastosta.
+The trained models are transformed into the [ONNX](https://onnx.ai/) format in order to speed up inference and to make the use of the model less dependent on specific frameworks and libraries. 
 
-- Yksi route: '/detect'
+- The API has one endpoint called `/detect`. The desired models used in inference can be chosen with arguments in the POST http request. Argument 0 means that the model is not used and 1 means that it is used.
 
-- Komponenttivalinnat ilmaistaan muodossa `postit=1&corner=1&empty=1&writing_type=1`, jolloin
-POST-pyynnön url on muotoa `/detect?postit=1&corner=1&empty=1&writing_type=1`
+- An example of POST http request where all models are used: `/detect?postit=1&corner=1&empty=1&writing_type=1`
 
-- Default-portti: 5000
+- Default-port: 5000
 
-- Odottaa että input-kuva/tiedosto löytyy POST-requestista 'image'-nimisellä avaimella (`request.files["image"]`)
+- The API expects that the image file of the document is attached to the POST request. One can test the API with request.py file or with for example curl command:
 
-- Palauttaa Flaskin Responsen, jossa `'Content-Type': 'text/csv'` ja tulokset ovat .csv-tiedostossa nimeltä 'virheet.csv'
+`curl http://127.0.0.1:5000/detect?postit=1&corner=1&empty=1&writing_type=1 -F image=@/path/img.jpg` 
 
-- Toimintaa voi testata oheisen request.py-koodin avulla (tai Postmanilla, curlilla tms.)
+The API returns a Flask response that contains a csv file called virheet.csv.
