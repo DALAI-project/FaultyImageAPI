@@ -1,13 +1,11 @@
 import os
-import time
 import PIL
 import onnxruntime
 import numpy as np
-import pandas as pd
 from torchvision import transforms
 from torchvision.transforms.functional import InterpolationMode
 from pdf2image import convert_from_bytes
-from flask import Flask, request, Response
+from flask import Flask, request
 import io
 from flask_cors import CORS
 
@@ -71,7 +69,7 @@ def predict_labels(images, args, name, extension, col_names,idj):
             page = '_page_' + str(i + 1)
 
         # Add image name to result dict
-        res_dict['tiedosto'] = name + page + extension
+        res_dict['file'] = name + page + extension
 
         input_image = None 
 
@@ -86,20 +84,20 @@ def predict_labels(images, args, name, extension, col_names,idj):
             # Perform transformations only when needed
             input_image = data_transforms(image).unsqueeze(0) if input_image is None else input_image
             label = predict_fault(input_image, corner_model)
-            res_dict['taittunut_kulma'] = label
+            res_dict['corner'] = label
 
         # Empty document prediction
         if args[2] == '1':
             # Transformations for empty page detection
             input_image = empty_transforms(image).unsqueeze(0)
             label = predict_fault(input_image, empty_model)
-            res_dict['tyhja_sivu'] = 1 - label  
+            res_dict['empty'] = 1 - label  
 
         if args[3] == '1':
             # Transformations for writing_type page detection
             input_image = writing_type_transforms(image).unsqueeze(0)
             label = predict_fault(input_image, writing_type_model)
-            res_dict['kirjoitustyyppi'] = label
+            res_dict['writing_type'] = label
             
         res_dict['id']= idj     
 
@@ -111,7 +109,6 @@ def predict_labels(images, args, name, extension, col_names,idj):
 
 @app.route('/detect', methods=["POST"])
 def detect():
-    start = time.time()
     # Extract arguments from query string
     postit  = request.args.get('postit', None)
     corner  = request.args.get('corner', None)
@@ -144,21 +141,10 @@ def detect():
             images = [image.convert("RGB")]
 
         # Column names for the .csv file
-        col_names = ['tiedosto','post_it','taittunut_kulma','tyhja_sivu', 'kirjoitustyyppi', 'id']
+        col_names = ['file','post_it','corner','empty', 'writing_type', 'id']
         # Get prediction results for each image as a list of dicts
         result_list = predict_labels(images, args, name, extension, col_names,idj)
         return result_list
-        result_df = pd.DataFrame.from_dict(result_list)
-
-        end = time.time()
-        t = end - start
-        print('Time: %.2f' % t)
-
-        # Returns the detection results as a .csv file
-        return Response(result_df.to_csv(), 
-                        mimetype="text/csv", 
-                        headers={"Content-disposition": "attachment; filename=virheet.csv"}
-                        )
     else:
         print("POST-request does not contain input image.")
 

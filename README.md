@@ -34,7 +34,7 @@ The trained models are transformed into the [ONNX](https://onnx.ai/) format in o
 
 - The API has one endpoint called `/detect`. The desired models used in inference can be chosen with arguments in the POST http request. Argument 0 means that the model is not used and 1 means that it is used.
 
-- An example of POST http request where all models are used: `/detect?postit=1&corner=1&empty=1&writing_type=1`
+- An example of POST http request where all models are used: `/detect?postit=1&corner=1&empty=1&writing_type=1`. NB! Windows users need to use this command: `/detect?postit=1"&"corner=1"&"empty=1"&"writing_type=1`.
 
 - Default-port: 5000
 
@@ -42,4 +42,10 @@ The trained models are transformed into the [ONNX](https://onnx.ai/) format in o
 
 `curl http://127.0.0.1:5000/detect?postit=1&corner=1&empty=1&writing_type=1 -F image=@/path/img.jpg` 
 
-The API returns a Flask response that contains a csv file called virheet.csv.
+NB! Windows users might encounter following error `Invoke-WebRequest : A parameter cannot be found that matches parameter name 'F'.`. This can be bypassed by running a command `Remove-item alias:curl`.
+
+## How to interpret API responses
+
+The API returns a Flask response that contains a list of dictionary. 
+
+With corner, empty and postit, 0 means that the model has not detected any flaws and 1 means that the model found a fault. In writing type model, the classification goes as followed: 0 means handwritten, 1 means type written and 2 means a combination of those two. 
