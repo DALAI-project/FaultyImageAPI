@@ -34,13 +34,13 @@ The trained models are transformed into the [ONNX](https://onnx.ai/) format in o
 
 - The API has one endpoint called `/detect`. The desired models used in inference can be chosen with arguments in the POST http request. Argument 0 means that the model is not used and 1 means that it is used.
 
-- An example of POST http request where all models are used: `/detect?postit=1&corner=1&empty=1&writing_type=1`. NB! Windows users need to use this command: `/detect?postit=1"&"corner=1"&"empty=1"&"writing_type=1`.
+- An example of POST http request where all models are used: `/detect?postit=1"&"corner=1"&"empty=1"&"writing_type=1`.
 
 - Default-port: 5000
 
 - The API expects that the image file of the document is attached to the POST request. One can test the API with request.py file or with for example curl command:
 
-`curl http://127.0.0.1:5000/detect?postit=1&corner=1&empty=1&writing_type=1 -F image=@/path/img.jpg` 
+`curl http://127.0.0.1:5000/detect?postit=1"&"corner=1"&"empty=1"&"writing_type=1 -F image=@/path/img.jpg` 
 
 NB! Windows users might encounter following error `Invoke-WebRequest : A parameter cannot be found that matches parameter name 'F'.`. This can be bypassed by running a command `Remove-item alias:curl`.
 
