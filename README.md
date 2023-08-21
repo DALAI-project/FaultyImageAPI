@@ -1,6 +1,6 @@
 # Faulty Image API
 
-This API combines the image classification models (i.e. empty, sticky notes, folded corner and writing type classifiers) trained in Dalai project. Using this API one can predict whether the document is empty, contains sticky notes or folded corners and the writing type of the document. This API is also used in [arkkiivi](https://arkkiivi.fi/) backend. 
+This API combines the image classification models (i.e. empty, sticky notes, folded corner and writing type classifiers) trained in Dalai project. Using this API one can predict whether the document is empty, contains sticky notes or folded corners and the writing type of the document. This API is also used in [Arkkiivi](https://arkkiivi.fi/) backend. 
 
 ## Installation
 
@@ -28,7 +28,7 @@ This API combines the image classification models (i.e. empty, sticky notes, fol
 
 `flask --app api.py --debug run`
 
-The API assumes that the models are found in './mallit' folder. The models are named 'post_it_model_20122022.onnx', 'corner_model_19122022.onnx', 'empty_model_v4.onnx' ja 'writing_type_v1.onnx'.
+The API assumes that the models are found in './models' folder. The models are named 'post_it_model.onnx', 'corner_model.onnx', 'empty_model_v4.onnx' ja 'writing_type_v1.onnx'.
 
 The trained models are transformed into the [ONNX](https://onnx.ai/) format in order to speed up inference and to make the use of the model less dependent on specific frameworks and libraries. 
 
