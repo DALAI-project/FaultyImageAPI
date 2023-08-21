@@ -34,9 +34,9 @@ writing_type_transforms = transforms.Compose([
     ])
 
 # Models are expected to be saved in ./mallit folder in the same path as the code
-MODEL_PATH = './mallit/' 
-POST_IT_MODEL = 'post_it_model_20122022.onnx'
-CORNER_MODEL = 'corner_model_19122022.onnx'
+MODEL_PATH = './models/' 
+POST_IT_MODEL = 'post_it_model.onnx'
+CORNER_MODEL = 'corner_model.onnx'
 EMPTY_MODEL = 'empty_model_v4.onnx'
 WRITING_TYPE_MODEL = 'writing_type_v1.onnx'
 
