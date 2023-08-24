@@ -37,7 +37,7 @@ writing_type_transforms = transforms.Compose([
 MODEL_PATH = './models/' 
 POST_IT_MODEL = 'post_it_model.onnx'
 CORNER_MODEL = 'corner_model.onnx'
-EMPTY_MODEL = 'empty_model_v4.onnx'
+EMPTY_MODEL = 'empty_v5_24_08_23.onnx'
 WRITING_TYPE_MODEL = 'writing_type_v1.onnx'
 
 try:
